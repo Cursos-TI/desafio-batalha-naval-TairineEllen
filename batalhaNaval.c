@@ -34,7 +34,7 @@ int main() {
     printf("\n");
 
     for (int i = 0; i < 10; i++) {       
-        printf("%d ", i + 1);
+        printf("%d ", i);
 
         for (int j = 0; j < 10; j++) {
             printf("%d ", tabuleiro[i][j]);
@@ -43,16 +43,36 @@ int main() {
         printf("\n");
     }
 
-    // Posicionando o primeiro navio horizontalmente em G6
+    // Posicionando o primeiro navio horizontalmente em G5
 
     for (int i = 6; i <= 8; i++) {
         tabuleiro[5][i] = 3;
     }
 
-    // Posicionando o segundo navio verticalmente em D3
+    // Posicionando o segundo navio verticalmente em D2
 
     for (int i = 2; i <= 4; i++) {
         tabuleiro[i][3] = 3;
+    }
+
+    // Posicionando o terceiro navio na diagonal em G6
+
+    for (int i = 6; i <= 8; i++) {
+        for (int j = 6; j <= 8; j++) {
+            if (i = j) {
+                tabuleiro[i][j] = 3;
+            }
+        }
+    }
+
+    // Posicionando o quarto navio na diagonal em C7
+
+     for (int i = 7; i <= 9; i++) {
+        for (int j = 0; j <= 2; j++) {
+            if (i + j == 9) {
+                tabuleiro[i][j] = 3;
+            }
+        }
     }
 
      printf("========== TABULEIRO COM NAVIOS ==========\n\n");
@@ -64,7 +84,7 @@ int main() {
     printf("\n");
 
     for (int i = 0; i < 10; i++) {       
-        printf("%d ", i + 1);
+        printf("%d ", i);
 
         for (int j = 0; j < 10; j++) {
             printf("%d ", tabuleiro[i][j]);
