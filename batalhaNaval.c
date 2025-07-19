@@ -4,19 +4,17 @@
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
 
+#define LINHAS 10
+#define COLUNAS 10
+
+#define LINHAS_HABILIDADES 3
+#define COLUNAS_HABILIDADES 5
+
 int main() {
-    int tabuleiro[10][10] = {
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    };
+    int tabuleiro[LINHAS][COLUNAS];
+    int cone[LINHAS_HABILIDADES][COLUNAS_HABILIDADES];
+    int cruz[LINHAS_HABILIDADES][COLUNAS_HABILIDADES];
+    int octaedro[LINHAS_HABILIDADES][COLUNAS_HABILIDADES];
 
     char coluna[11] = {' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
 
@@ -33,15 +31,79 @@ int main() {
     
     printf("\n");
 
-    for (int i = 0; i < 10; i++) {       
+    for (int i = 0; i < LINHAS; i++) {
         printf("%d ", i);
 
-        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < COLUNAS; j++) {
+            tabuleiro[i][j] = 0;
             printf("%d ", tabuleiro[i][j]);
         }
+        printf("\n");
+    }
+
+    printf("========== CONE ==========\n\n");
+
+    for (int i = 0; i < LINHAS_HABILIDADES; i++) {
+        for (int j = 0; j < COLUNAS_HABILIDADES; j++) {
+            cone[i][j] = 0;
+        }
+    }
+
+    for (int i = 0; i < LINHAS_HABILIDADES; i++) {
+        int meio = COLUNAS_HABILIDADES / 2;
+        for (int j = -i; j <= i; j++) {
+            int col = meio + j;
+            if (col >= 0 && col < COLUNAS_HABILIDADES) {
+                cone[i][col] = 5;
+            }
+        }
+    }
+    
+    for (int i = 0; i < LINHAS_HABILIDADES; i++) {
+        for (int j = 0; j < COLUNAS_HABILIDADES; j++) {
+            printf("%d ", cone[i][j]);
+        }
+        printf("\n");
+    } 
+
+     printf("========== CRUZ ==========\n\n");
+
+    for (int i = 0; i < LINHAS_HABILIDADES; i++) {
+        for (int j = 0; j < COLUNAS_HABILIDADES; j++) {
+            if (i == LINHAS_HABILIDADES / 2 || j == COLUNAS_HABILIDADES / 2) {
+                cruz[i][j] = 5;
+                printf("%d ", cruz[i][j]);
+            } else {
+                cruz[i][j] = 0;
+                printf("%d ", cruz[i][j]);
+            }
+        }      
 
         printf("\n");
     }
+
+     printf("========== OCTAEDRO ==========\n\n");
+
+    for (int i = 0; i < LINHAS_HABILIDADES; i++) {
+        for (int j = 0; j < COLUNAS_HABILIDADES; j++) {
+            if (i == LINHAS_HABILIDADES / 2 || j == COLUNAS_HABILIDADES / 2) {
+                if(j == 0 || j == COLUNAS_HABILIDADES - 1) {
+                    octaedro[i][j] = 0;
+                    printf("%d ", octaedro[i][j]);
+                } else {
+                    octaedro[i][j] = 5;
+                    printf("%d ", octaedro[i][j]);
+                }
+            } else {
+                octaedro[i][j] = 0;
+                printf("%d ", octaedro[i][j]);
+            }
+        }      
+
+        printf("\n");
+    }
+
+
 
     // Posicionando o primeiro navio horizontalmente em G5
 
@@ -75,6 +137,45 @@ int main() {
         }
     }
 
+    // Posicionando o cone
+
+     for (int i = 0; i < LINHAS_HABILIDADES; i++) {
+        for (int j = 0; j < COLUNAS_HABILIDADES; j++) {
+            if (2 + i < LINHAS && 4 + j < COLUNAS) {
+                if (cone[i][j] != 0) {
+                    tabuleiro[2 + i][4 + j] = cone[i][j];
+                }
+            }
+        }
+    }
+
+    // Posicionando a cruz
+
+for(int i = 0; i < LINHAS_HABILIDADES; i++) {
+        for(int j = 0; j < COLUNAS_HABILIDADES; j++) {
+            int x = i + 3;
+            int y = j + 3;
+
+            if(x < LINHAS && y < COLUNAS) {
+                tabuleiro[x][y] = cruz[i][j];
+            }
+        }
+    }
+
+    // Posicionando o octaedro
+
+    for(int i = 0; i < LINHAS_HABILIDADES; i++) {
+        for(int j = 0; j < COLUNAS_HABILIDADES; j++) {
+            int x = i + 3;
+            int y = j + 3;
+
+            if(x < LINHAS && y < COLUNAS) {
+                tabuleiro[x][y] = octaedro[i][j];
+            }
+        }
+    }
+
+
      printf("========== TABULEIRO COM NAVIOS ==========\n\n");
 
     for (int i = 0; i < 11; i++) {
@@ -83,10 +184,10 @@ int main() {
     
     printf("\n");
 
-    for (int i = 0; i < 10; i++) {       
+    for (int i = 0; i < LINHAS; i++) {       
         printf("%d ", i);
 
-        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < COLUNAS; j++) {
             printf("%d ", tabuleiro[i][j]);
         }
 
